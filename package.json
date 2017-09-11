@@ -11,5 +11,10 @@
     "url": "reg_number_routes"
   },
   "author": "Yamkela5",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.0",
+    "express": "^4.15.4",
+    "express-handlebars": "^3.0.0"
+  }
 }

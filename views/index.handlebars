@@ -1,0 +1,18 @@
+<h1>Registration Web app</h1>
+<br>
+<br>
+<form class="entry" method="post" action="/reg_number">
+
+<input type="text" name="name" placeholder="Please enter a registration number" id="input">
+<input type="submit" value="Add" id="button">
+
+<!-- <div class='numplate'> -->
+{{output}}
+<!-- </div> -->
+{{#each numplate}}
+<ul>
+ <li>{{this}}</li>
+</ul>
+{{/each}}
+
+</form>
