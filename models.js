@@ -1,17 +1,17 @@
 var mongoose = require('mongoose');
-const MongoURL =process.env.MONGO_DB_URL || "mongodb://localhost/RegNumbr";
-mongoose.connect(MongoURL, {
-  useMongoClient: true
+
+const mongoURL = process.env.MONGO_DB_URL || "mongodb://localhost/regNumber";
+mongoose.connect(mongoURL, function(err) {
+  if (err) {
+    console.log('Error Connecting to DB: ' + err);
+  } else {
+    console.log('connection to DB is successful');
+  }
 });
-//yash
 
-console.log("Connecting to MongoURL : " + MongoURL);
+var RegNumber = mongoose.model('RegNumber', {
+  RegNumber: String
 
-const regNumbers = mongoose.Schema({
+});
 
-  name: String
- });
-
-var regNumber = mongoose.model("regNumber", regNumbers);
-
-module.exports = regNumber; 
+module.exports = RegNumber;

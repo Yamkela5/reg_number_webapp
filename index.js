@@ -3,49 +3,162 @@ var app = express();
 var bodyParser = require('body-parser')
 var exphbs  = require('express-handlebars');
 var mongoStore = require('./models')
-var regNumbers = mongoStore();
-var mongoose = require('mongoose')
+var RegNumber = mongoStore;
+console.log(RegNumber);
 app.use(express.static('public'));
-//empty array that I will push reg numbers to
-var regNumberList=[];
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({
   extended: false
 }))
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.engine('handlebars', exphbs({
+  defaultLayout: 'main'
+}));
+app.set('view engine', 'handlebars');
+app.use(express.static('public'))
 
-mongoose.connect('mongodb://localhost/RegNumbr');
- var db = mongoose.connection;
- //throw err
+app.get('/', function(req, res) {
 
- db.on('error', console.error.bind(console, 'connection error:'));
 
-//create a get router that take a Registration number
+    res.render('index');
 
-app.get('/',function(req, res){
-  var name = req.body.name;
-  res.render('index')
 })
 
-app.post('/reg_number',function(req, res){
 
-var name = req.body.name;
+app.get('/reg_number', function(req, res){
 
-regNumberList.push(name)
-mongoStore.create({name: name}, function(err, result){
-    if (err) {return (err)}
+  var regNumberList = req.body.name;
 
-    console.log(result);
+
+
+  RegNumber.find({}, function(err, results){
+
+    if(err){
+
+      console.log(err);
+
+    }
+
+    else{
+
+      console.log(results);
+
+      res.render('index', {listReg: results})
+
+    }
+
+  })
+
+})
+
+
+app.post('/reg_number', function(req, res) {
+
+  var regList = [];
+
+  var regNumberList = req.body.name;
+  var town = req.body.regNum;
+  var numbers = ' ';
+  regObj= {};
+
+
+  var add = {
+
+    RegNumber: regNumberList
+
+  };
+
+
+  RegNumber.findOne({
+
+    RegNumber: regNumberList
+
+  }, function(err, results) {
+
+    if (err) {
+
+      console.log(err);
+
+      return
+
+    }
+
+
+    if (results) {
+
+      regList.push(regNumberList)
+      regObj[regNumberList] = 1
+
+    } else {
+
+      RegNumber.create(add);
+
+
+    }
+
+
+
+  })
+
+    res.redirect("/reg_number")
+
+
 });
 
-res.render('index',{
-    numplate: regNumberList
-
-  })
-})
 
 
+app.post('/filter-towns', function(req, res) {
+
+      var town = req.body.regNum;
+
+ 
+
+
+if (town === 'All'){
+
+  res.redirect('/reg_number');
+
+}
+
+else{
+
+RegNumber.find({
+  RegNumber: {
+
+            '$regex': town + '.*'
+
+          }
+
+          },
+
+          function(err, results) {
+
+            if (err) {
+
+              console.log(err);
+
+            } else {
+
+              console.log(results);
+
+              res.render('index', {
+
+                output: results
+
+              })
+
+            }
+
+          })
+
+
+        }
+
+      });
 
 
 
@@ -53,18 +166,7 @@ res.render('index',{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-//start the server
+// start the server
 var server = app.listen(3001, function () {
 
  var host = server.address().address;
@@ -72,4 +174,4 @@ var server = app.listen(3001, function () {
 
  console.log('Registration web app listening at http://%s:%s', host, port);
 
-});
+})

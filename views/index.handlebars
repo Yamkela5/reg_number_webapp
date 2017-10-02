@@ -6,16 +6,45 @@
 <input type="text" name="name" placeholder="Please enter a registration number" id="input">
 <input type="submit" value="Add" id="button">
 <br>
-<input type="radio"  name="gender" class="radio" value="Cape Town"> Cape Town<br>
-  <input type="radio" name="gender" class="radio" value="Paarl"> Paarl<br>
-  <input type="radio" name="gender" class="radio"value="Belville"> Belville
-<!-- <div class='numplate'> -->
-{{output}}
-<!-- </div> -->
-{{#each numplate}}
-<ul>
- <li>{{this}}</li>
-</ul>
+</form>
+<form class="entry" action="/filter-towns" method="post">
+
+<input type="radio"  name="regNum" class="radio" value="CA"> Cape Town
+  <input type="radio" name="regNum" class="radio" value="CJ"> Paarl
+  <input type="radio" name="regNum" class="radio"value="CY"> Belville
+<input type="radio" name="regNum" value="All">All
+  <br>
+  <br>
+  <input type="submit" name="name" value="Show" id="button">
+</form>
+<br>
+<br>
+<br>
+<div class='town'>
+
+{{#each listReg}}
+
+<div class='numPlate'>
+
+  {{this.RegNumber}}
+
+</div>
+
 {{/each}}
 
-</form>
+
+{{#each output}}
+
+<div class='numPlate'>
+
+{{this.RegNumber}}
+
+
+</div>
+
+{{/each}}
+
+</div>
+
+
+</div>
