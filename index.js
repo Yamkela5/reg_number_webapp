@@ -167,11 +167,7 @@ RegNumber.find({
 
 
 // start the server
-var server = app.listen(3001, function () {
-
- var host = server.address().address;
- var port = server.address().port;
-
- console.log('Registration web app listening at http://%s:%s', host, port);
-
-})
+var port = process.env.PORT || 3001
+var server = app.listen(port, function() {
+  console.log("Web app started on port : " + port)
+});
