@@ -1,4 +1,9 @@
 /*}*/
+body{
+  background-image: url('https://blog.caranddriver.com/wp-content/uploads/2017/04/cars_3_characters-1-876x535.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .numPlate{
   background-color: yellow;
   border:solid black;
